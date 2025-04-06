@@ -13,19 +13,22 @@ export class Block {
 
     this.type = PIECES[PIECES_TYPES[randomIndex]];
 
-    this.i = 0;
-    this.j = 0;
+    this.i = 0 - this.type.length;
+    this.j = Math.floor(
+      Math.random() * (CANVAS_WIDTH / BLOCK_SIZE - this.type[0].length)
+    );
+
     this.controller = new Controller(this);
   }
 
   moveLeft() {
-    if (this.j >= 0) {
+    if (this.j - 1 >= 0) {
       this.j -= 1;
     }
   }
 
   moveRight() {
-    if (this.j + this.type[0].length <= CANVAS_WIDTH / BLOCK_SIZE) {
+    if (this.j + this.type[0].length + 1 <= CANVAS_WIDTH / BLOCK_SIZE) {
       this.j += 1;
     }
   }
@@ -40,6 +43,11 @@ export class Block {
         rotated[i][j] = this.type[this.type.length - j - 1][i];
       }
     }
+
+    if (this.j + rotated[0].length > CANVAS_WIDTH / BLOCK_SIZE) {
+      this.j = CANVAS_WIDTH / BLOCK_SIZE - rotated[0].length;
+    }
+
     this.type = rotated;
   }
 

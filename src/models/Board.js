@@ -34,6 +34,7 @@ export class Board {
         }
       }
     }
+    this.checkLine();
   }
 
   isCollidingBoardBottom(blockBottomPosition) {
@@ -41,12 +42,15 @@ export class Board {
     return blockBottomPosition === boardBottonPosition;
   }
 
-  isCollidingSettledPiece(blockBottomPosition) {
-    let isColliding = [];
+  isCollidingSettledPiece() {
+    if (this.block.i < 0) {
+      return false;
+    }
+
+    let collidingSquares = [];
 
     for (let i = this.block.type.length - 1; i >= 0; i--) {
       for (let j = this.block.type[0].length - 1; j >= 0; j--) {
-        const blockLastLine = this.block.type.length - 1;
         const squareI = this.block.i + i;
         const squareJ = this.block.j + j;
 
@@ -54,11 +58,11 @@ export class Board {
           this.block.type[i][j] === 1 &&
           this.board[squareI + 1][squareJ] === 1
         ) {
-          isColliding.push(true);
+          collidingSquares.push(true);
         }
       }
     }
-    return isColliding.some((value) => value === true);
+    return collidingSquares.some((value) => value === true);
   }
 
   isColliding() {
