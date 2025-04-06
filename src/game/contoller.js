@@ -6,7 +6,6 @@ export class Controller {
   }
 
   handleKeyDown(event) {
-    console.log(event);
     switch (event.key) {
       case "ArrowLeft":
         this.block.moveLeft();

@@ -1,34 +1,36 @@
 import {
   CANVAS_HEIGHT,
   BLOCK_SIZE,
-  Pieces,
+  PIECES,
+  PIECES_TYPES,
   CANVAS_WIDTH,
 } from "../consts/piece";
 import { Controller } from "../game/contoller";
 
 export class Block {
   constructor() {
-    this.type = Pieces.H;
-    // this.color = color;
-    this.x = 0;
-    this.y = 0;
+    const randomIndex = Math.floor(Math.random() * PIECES_TYPES.length);
+
+    this.type = PIECES[PIECES_TYPES[randomIndex]];
+
+    this.i = 0;
+    this.j = 0;
     this.controller = new Controller(this);
   }
 
   moveLeft() {
-    if (this.x - BLOCK_SIZE >= 0) {
-      this.x -= BLOCK_SIZE;
+    if (this.j >= 0) {
+      this.j -= 1;
     }
   }
 
   moveRight() {
-    if (1 + this.x + this.type[0].length * BLOCK_SIZE <= CANVAS_WIDTH) {
-      this.x += BLOCK_SIZE;
+    if (this.j + this.type[0].length <= CANVAS_WIDTH / BLOCK_SIZE) {
+      this.j += 1;
     }
   }
 
   rotate() {
-    // Rotate the block by swapping rows and columns
     const rotated = [];
     for (let i = 0; i < this.type[0].length; i++) {
       for (let j = 0; j < this.type.length; j++) {
@@ -42,9 +44,7 @@ export class Block {
   }
 
   update() {
-    if (BLOCK_SIZE * this.type.length + this.y < CANVAS_HEIGHT) {
-      this.y += BLOCK_SIZE;
-    }
+    this.i += 1;
   }
 
   render(ctx) {
@@ -54,8 +54,8 @@ export class Block {
       for (let j = 0; j < this.type[i].length; j++) {
         if (this.type[i][j] === 1) {
           ctx.fillRect(
-            j * BLOCK_SIZE + this.x,
-            i * BLOCK_SIZE + this.y,
+            this.j * BLOCK_SIZE + j * BLOCK_SIZE,
+            this.i * BLOCK_SIZE + i * BLOCK_SIZE,
             BLOCK_SIZE,
             BLOCK_SIZE
           );

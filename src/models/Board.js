@@ -8,13 +8,10 @@ export class Board {
   }
 
   setBlock() {
-    const boardYPosition = this.block.y / BLOCK_SIZE + 1;
-    const boardXPosition = this.block.x / BLOCK_SIZE;
-
     for (let i = 0; i < this.block.type.length; i++) {
       for (let j = 0; j < this.block.type[i].length; j++) {
         if (this.block.type[i][j] === 1) {
-          this.board[boardYPosition + i][boardXPosition + j] = 1;
+          this.board[this.block.i + i][this.block.j + j] = 1;
         }
       }
     }
@@ -22,14 +19,10 @@ export class Board {
 
   isColliding() {
     const blockHeight = this.block.type.length;
-    const blockBottomPosition = (BLOCK_SIZE * blockHeight + this.block.y) / 40;
+    const blockBottomPosition = this.block.i + this.block.type.length - 1;
     const boardBottonPosition = this.board.length - 1;
 
-    console.log(blockBottomPosition);
-
-    // Check if the block is at the bottom of the board
     if (blockBottomPosition === boardBottonPosition) {
-      console.log("Colidiu com o fundo");
       this.setBlock();
       this.block = new Block();
       return;
@@ -38,7 +31,7 @@ export class Board {
     for (let i = this.block.type[0].length - 1; i >= 0; i--) {
       const blockLastLine = this.block.type.length - 1;
       const squareX =
-        this.block.x / 40 + this.block.type[blockLastLine].length - i - 1;
+        this.block.j + this.block.type[blockLastLine].length - i - 1;
 
       if (
         this.block.type[blockLastLine][i] === 1 &&
@@ -52,20 +45,7 @@ export class Board {
   }
 
   checkBlockCollision() {
-    // Check if the block is at the bottom of the board
-    const blockHeight = this.block.type.length;
-    const blockBottomY = BLOCK_SIZE * blockHeight + this.block.y;
-
-    if (blockBottomY === CANVAS_HEIGHT - BLOCK_SIZE) {
-      // this.setBlock();
-      // this.block = new Block();
-      return;
-    }
-
-    if (this.board[blockBottomY / 40 + 1][this.block.x] === 1) {
-      // this.setBlock();
-      // this.block = new Block();
-    }
+    this.isColliding();
   }
 
   checkLine() {
@@ -80,7 +60,6 @@ export class Board {
   checkGameOver() {}
 
   update() {
-    this.isColliding();
     this.checkBlockCollision();
     this.block.update();
   }

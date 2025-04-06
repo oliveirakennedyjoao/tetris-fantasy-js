@@ -1,4 +1,4 @@
-export const Pieces = {
+export const PIECES = {
   // Define the Piece types
   V: [
     [1, 0],
@@ -52,6 +52,8 @@ export const Pieces = {
     [1, 0, 1],
   ],
 };
+
+export const PIECES_TYPES = Object.keys(PIECES);
 
 export const COLORS = {
   V: "purple",
