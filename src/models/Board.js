@@ -4,6 +4,25 @@ import { Block } from "./Block";
 export class Board {
   constructor() {
     this.board = Array.from({ length: 15 }, () => Array(10).fill(0));
+
+    // this.board = [
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    // ];
+
     this.block = new Block();
   }
 
@@ -17,30 +36,44 @@ export class Board {
     }
   }
 
-  isColliding() {
-    const blockHeight = this.block.type.length;
-    const blockBottomPosition = this.block.i + this.block.type.length - 1;
+  isCollidingBoardBottom(blockBottomPosition) {
     const boardBottonPosition = this.board.length - 1;
+    return blockBottomPosition === boardBottonPosition;
+  }
 
-    if (blockBottomPosition === boardBottonPosition) {
+  isCollidingSettledPiece(blockBottomPosition) {
+    let isColliding = [];
+
+    for (let i = this.block.type.length - 1; i >= 0; i--) {
+      for (let j = this.block.type[0].length - 1; j >= 0; j--) {
+        const blockLastLine = this.block.type.length - 1;
+        const squareI = this.block.i + i;
+        const squareJ = this.block.j + j;
+
+        if (
+          this.block.type[i][j] === 1 &&
+          this.board[squareI + 1][squareJ] === 1
+        ) {
+          isColliding.push(true);
+        }
+      }
+    }
+    return isColliding.some((value) => value === true);
+  }
+
+  isColliding() {
+    const blockBottomPosition = this.block.i + this.block.type.length - 1;
+
+    if (this.isCollidingBoardBottom(blockBottomPosition)) {
       this.setBlock();
       this.block = new Block();
       return;
     }
 
-    for (let i = this.block.type[0].length - 1; i >= 0; i--) {
-      const blockLastLine = this.block.type.length - 1;
-      const squareX =
-        this.block.j + this.block.type[blockLastLine].length - i - 1;
-
-      if (
-        this.block.type[blockLastLine][i] === 1 &&
-        this.board[blockBottomPosition + 1][squareX] === 1
-      ) {
-        this.setBlock();
-        this.block = new Block();
-        return;
-      }
+    if (this.isCollidingSettledPiece(blockBottomPosition)) {
+      this.setBlock();
+      this.block = new Block();
+      return;
     }
   }
 
