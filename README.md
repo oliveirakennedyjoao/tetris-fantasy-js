@@ -11,3 +11,9 @@ This game is a small exercise in programming logic. It features a visual represe
 - [ ] Block Movement – Add collision detection with already placed blocks
 - [ ] Game – Implement a point system
 - [ ] Game – Add a game over check and screen
+
+### How to Run the Game
+
+1. Clone this repository
+2. Run the command: `yarn dev`
+3. In your browser, open: [http://localhost:5173/](http://localhost:5173/)
