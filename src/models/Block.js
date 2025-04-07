@@ -4,15 +4,18 @@ import {
   PIECES,
   PIECES_TYPES,
   CANVAS_WIDTH,
-} from "../consts/piece";
+  COLORS,
+} from "../consts";
 import { Controller } from "../game/contoller";
 
 export class Block {
   constructor() {
-    const randomIndex = Math.floor(Math.random() * PIECES_TYPES.length);
+    const piece = PIECES_TYPES[Math.floor(Math.random() * PIECES_TYPES.length)];
 
-    this.type = PIECES[PIECES_TYPES[randomIndex]];
+    console.log("piece", piece);
 
+    this.type = PIECES[piece];
+    this.color = piece;
     this.i = 0 - this.type.length;
     this.j = Math.floor(
       Math.random() * (CANVAS_WIDTH / BLOCK_SIZE - this.type[0].length)
@@ -56,7 +59,7 @@ export class Block {
   }
 
   render(ctx) {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = COLORS[this.color];
 
     for (let i = 0; i < this.type.length; i++) {
       for (let j = 0; j < this.type[i].length; j++) {

@@ -1,27 +1,9 @@
-import { BLOCK_SIZE, CANVAS_HEIGHT } from "../consts/piece";
+import { BLOCK_SIZE, COLORS } from "../consts";
 import { Block } from "./Block";
 
 export class Board {
   constructor() {
     this.board = Array.from({ length: 15 }, () => Array(10).fill(0));
-
-    // this.board = [
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-    //   [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-    // ];
 
     this.block = new Block();
   }
@@ -30,7 +12,7 @@ export class Board {
     for (let i = 0; i < this.block.type.length; i++) {
       for (let j = 0; j < this.block.type[i].length; j++) {
         if (this.block.type[i][j] === 1) {
-          this.board[this.block.i + i][this.block.j + j] = 1;
+          this.board[this.block.i + i][this.block.j + j] = this.block.color;
         }
       }
     }
@@ -43,9 +25,7 @@ export class Board {
   }
 
   isCollidingSettledPiece() {
-    if (this.block.i < 0) {
-      return false;
-    }
+    if (this.block.i < 0) return;
 
     let collidingSquares = [];
 
@@ -56,7 +36,7 @@ export class Board {
 
         if (
           this.block.type[i][j] === 1 &&
-          this.board[squareI + 1][squareJ] === 1
+          this.board[squareI + 1][squareJ] !== 0
         ) {
           collidingSquares.push(true);
         }
@@ -94,19 +74,16 @@ export class Board {
     }
   }
 
-  checkGameOver() {}
-
   update() {
     this.checkBlockCollision();
     this.block.update();
   }
 
   render(ctx) {
-    ctx.fillStyle = "red";
-
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[i].length; j++) {
-        if (this.board[i][j] === 1) {
+        if (this.board[i][j] !== 0) {
+          ctx.fillStyle = COLORS[this.board[i][j]];
           ctx.fillRect(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
         }
       }

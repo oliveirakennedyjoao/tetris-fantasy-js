@@ -1,5 +1,4 @@
 export const PIECES = {
-  // Define the Piece types
   V: [
     [1, 0],
     [1, 1],
@@ -46,6 +45,15 @@ export const PIECES = {
     [1, 1, 1],
     [1, 0, 1],
   ],
+  TRI: [
+    [0, 1],
+    [1, 1],
+  ],
+  BIG_Z: [
+    [1, 1, 0],
+    [0, 1, 0],
+    [0, 1, 1],
+  ],
 };
 
 export const PIECES_TYPES = Object.keys(PIECES);
@@ -60,6 +68,10 @@ export const COLORS = {
   J: "orange",
   T: "pink",
   O: "brown",
+  C: "gray",
+  H: "lightblue",
+  TRI: "lightgreen",
+  BIG_Z: "lightcoral",
 };
 
 export const BLOCK_SIZE = 40;
