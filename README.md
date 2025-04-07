@@ -4,8 +4,10 @@
   <img src="./src/assets/game.png" alt="tetris fantasy JS game image" style=""/>
 </div>
 
-This game is about a little exercise of programming logic. It consists in a visual presentation of a matrice that represents the tetris game logic. Some funcionalities are still in development. Check ahead the roadmap with all features this game will have.
+### About
 
-- [ ] Block movement - adds collision besides setted blocks;
-- [ ] Game - add point sistem;
-- [ ] Game - add game over check and screen.
+This game is a small exercise in programming logic. It features a visual representation of a matrix that simulates the logic behind a Tetris game. Some functionalities are still under development. Check out the roadmap below to see the planned features:
+
+- [ ] Block Movement – Add collision detection with already placed blocks
+- [ ] Game – Implement a point system
+- [ ] Game – Add a game over check and screen
